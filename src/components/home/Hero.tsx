@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
         <div className="max-w-3xl text-center mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Transparent Islamic Fundraising with Blockchain Technology
+            AmanahPay: Islamic Fundraising with Blockchain Technology
           </h1>
           
           <p className="text-lg md:text-xl text-white/90 mb-8">

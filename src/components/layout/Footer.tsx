@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
               <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
                 <span className="arabic text-islamic-primary font-bold text-lg">صدقة</span>
               </div>
-              <span className="text-xl font-bold text-white">FFF</span>
+              <span className="text-xl font-bold text-white">AmanahPay</span>
             </Link>
             <p className="text-gray-300 mb-4">
               Empowering Islamic charitable giving through transparent blockchain technology.
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
         <div className="islamic-pattern-divider mt-8"></div>
         
         <div className="text-center text-gray-300 text-sm pt-6">
-          <p>&copy; {new Date().getFullYear()} Faith Finance Forward. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} AmanahPay. All rights reserved.</p>
           <p className="mt-2">Powered by Blockchain Technology</p>
         </div>
       </div>

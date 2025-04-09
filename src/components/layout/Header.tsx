@@ -13,7 +13,7 @@ const Header: React.FC = () => {
             <div className="w-10 h-10 rounded-full bg-islamic-primary flex items-center justify-center">
               <span className="arabic text-white font-bold text-lg">صدقة</span>
             </div>
-            <span className="text-xl font-bold text-islamic-dark">Faith Finance Forward</span>
+            <span className="text-xl font-bold text-islamic-dark">AmanahPay</span>
           </Link>
         </div>
 
