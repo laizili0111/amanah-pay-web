@@ -55,6 +55,7 @@ const sampleTransactions = [
   }
 ];
 
+// Update dashboard data to only use MYR
 const dashboardData = {
   totalAmount: 225000,
   campaigns: 12,

@@ -14,7 +14,8 @@ interface QRCodePaymentProps {
 const QRCodePayment: React.FC<QRCodePaymentProps> = ({ amount, currency, campaignId }) => {
   const [isOpen, setIsOpen] = useState(false);
   
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=amanahpay:donate?amount=${amount}&currency=${currency}&campaign=${campaignId}`;
+  // Always use ETH for QR code payments
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=amanahpay:donate?amount=${amount}&currency=ETH&campaign=${campaignId}`;
   
   const handleCopyAddress = () => {
     navigator.clipboard.writeText('0xeB42421a4D55593c5C5A290880961b383397A17E');

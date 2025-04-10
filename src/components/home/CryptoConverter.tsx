@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ArrowRightLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,20 +9,9 @@ const CryptoConverter: React.FC = () => {
   const [fromCurrency, setFromCurrency] = useState<string>('MYR');
   const [toCurrency, setToCurrency] = useState<string>('ETH');
   
-  // These would be fetched from an API in a real application
   const conversionRates = {
     'MYR-ETH': 0.00011,
-    'MYR-BTC': 0.0000042,
-    'MYR-USDT': 0.21,
-    'USD-ETH': 0.00043,
-    'USD-BTC': 0.000017,
-    'USD-USDT': 1,
-    'EUR-ETH': 0.00047,
-    'EUR-BTC': 0.000019,
-    'EUR-USDT': 1.08,
-    'GBP-ETH': 0.00055,
-    'GBP-BTC': 0.000022,
-    'GBP-USDT': 1.27
+    'ETH-MYR': 9090.91
   };
   
   const getConversionRate = (from: string, to: string) => {
@@ -66,9 +54,7 @@ const CryptoConverter: React.FC = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="MYR">MYR</SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="EUR">EUR</SelectItem>
-                      <SelectItem value="GBP">GBP</SelectItem>
+                      <SelectItem value="ETH">ETH</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -100,8 +86,7 @@ const CryptoConverter: React.FC = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="ETH">ETH</SelectItem>
-                      <SelectItem value="BTC">BTC</SelectItem>
-                      <SelectItem value="USDT">USDT</SelectItem>
+                      <SelectItem value="MYR">MYR</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

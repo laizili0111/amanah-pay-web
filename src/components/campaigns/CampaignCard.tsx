@@ -25,7 +25,7 @@ const CampaignCard: React.FC<CampaignProps> = ({
   imageUrl,
   goal,
   raised,
-  currency = 'MYR',
+  currency = 'MYR', // Always default to MYR
   daysLeft,
   supporters,
   category
@@ -56,8 +56,8 @@ const CampaignCard: React.FC<CampaignProps> = ({
         
         <div className="mt-4 mb-2">
           <div className="flex justify-between text-sm mb-1">
-            <span className="font-medium text-islamic-dark">Raised: <span className="text-islamic-primary">{currency} {raised.toLocaleString()}</span></span>
-            <span className="text-gray-500">Goal: {currency} {goal.toLocaleString()}</span>
+            <span className="font-medium text-islamic-dark">Raised: <span className="text-islamic-primary">MYR {raised.toLocaleString()}</span></span>
+            <span className="text-gray-500">Goal: MYR {goal.toLocaleString()}</span>
           </div>
           <Progress value={progress} className="h-2" />
         </div>

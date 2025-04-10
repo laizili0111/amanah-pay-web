@@ -3,15 +3,13 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CalculatorIcon, InfoIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ZakatCalculator: React.FC = () => {
   const [calculatorMode, setCalculatorMode] = useState<string>('wealth');
-  const [currency, setCurrency] = useState<string>('MYR');
+  const currency = 'MYR';
   
-  // Wealth Zakat
   const [cash, setCash] = useState<string>('0');
   const [gold, setGold] = useState<string>('0');
   const [silver, setSilver] = useState<string>('0');
@@ -20,19 +18,12 @@ const ZakatCalculator: React.FC = () => {
   const [debts, setDebts] = useState<string>('0');
   const [zakatResult, setZakatResult] = useState<number | null>(null);
   
-  // Business Zakat
   const [inventory, setInventory] = useState<string>('0');
   const [receivables, setReceivables] = useState<string>('0');
   const [businessCash, setBusinessCash] = useState<string>('0');
   const [liabilities, setLiabilities] = useState<string>('0');
   
-  // Nisab thresholds (approximate values)
-  const nisabThresholds = {
-    'MYR': 24500, // Approximate MYR value of 85g of gold
-    'USD': 5200,
-    'EUR': 4700,
-    'GBP': 4000,
-  };
+  const nisabThreshold = 24500;
   
   const calculateZakat = () => {
     if (calculatorMode === 'wealth') {
@@ -45,21 +36,17 @@ const ZakatCalculator: React.FC = () => {
       const totalLiabilities = parseFloat(debts || '0');
       const netWealth = totalAssets - totalLiabilities;
       
-      const nisab = nisabThresholds[currency as keyof typeof nisabThresholds] || 24500;
-      
-      if (netWealth < nisab) {
+      if (netWealth < nisabThreshold) {
         toast.info("Your wealth is below the Nisab threshold. Zakat is not mandatory.", {
-          description: `The Nisab threshold is ${currency} ${nisab.toLocaleString()}.`
+          description: `The Nisab threshold is MYR ${nisabThreshold.toLocaleString()}.`
         });
         setZakatResult(0);
       } else {
-        // Zakat is 2.5% of net wealth
         const zakatAmount = netWealth * 0.025;
         setZakatResult(zakatAmount);
         toast.success("Zakat calculated successfully!");
       }
     } else {
-      // Business Zakat calculation
       const totalBusinessAssets = parseFloat(inventory || '0') + 
                                 parseFloat(receivables || '0') + 
                                 parseFloat(businessCash || '0');
@@ -67,15 +54,12 @@ const ZakatCalculator: React.FC = () => {
       const totalBusinessLiabilities = parseFloat(liabilities || '0');
       const netBusinessWealth = totalBusinessAssets - totalBusinessLiabilities;
       
-      const nisab = nisabThresholds[currency as keyof typeof nisabThresholds] || 24500;
-      
-      if (netBusinessWealth < nisab) {
+      if (netBusinessWealth < nisabThreshold) {
         toast.info("Your business wealth is below the Nisab threshold. Zakat is not mandatory.", {
-          description: `The Nisab threshold is ${currency} ${nisab.toLocaleString()}.`
+          description: `The Nisab threshold is MYR ${nisabThreshold.toLocaleString()}.`
         });
         setZakatResult(0);
       } else {
-        // Zakat is 2.5% of net wealth
         const zakatAmount = netBusinessWealth * 0.025;
         setZakatResult(zakatAmount);
         toast.success("Business Zakat calculated successfully!");
@@ -107,17 +91,9 @@ const ZakatCalculator: React.FC = () => {
           </Tabs>
           
           <div className="ml-4 w-32">
-            <Select value={currency} onValueChange={setCurrency}>
-              <SelectTrigger>
-                <SelectValue placeholder="MYR" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="MYR">MYR</SelectItem>
-                <SelectItem value="USD">USD</SelectItem>
-                <SelectItem value="EUR">EUR</SelectItem>
-                <SelectItem value="GBP">GBP</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="h-10 px-3 py-2 rounded-md border border-input bg-background flex items-center text-sm">
+              MYR
+            </div>
           </div>
         </div>
       </div>
@@ -260,7 +236,7 @@ const ZakatCalculator: React.FC = () => {
               Your Zakat amount:
             </p>
             <p className="text-center text-2xl font-bold text-islamic-primary">
-              {currency} {zakatResult.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+              MYR {zakatResult.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
             </p>
             <div className="flex justify-center mt-4">
               <Button 

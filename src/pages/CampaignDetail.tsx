@@ -5,11 +5,10 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Clock, Users, Share2, Heart, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import QRCodePayment from '@/components/payments/QRCodePayment';
 
-// Sample campaign data (would be fetched from API)
 const campaignData = {
   id: '1',
   title: 'Masjid Renovation Project',
@@ -80,12 +79,14 @@ const campaignData = {
 const CampaignDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [donationAmount, setDonationAmount] = useState<string>('250');
-  const [currency, setCurrency] = useState<string>('MYR');
+  const fiatCurrency = 'MYR';
+  const cryptoCurrency = 'ETH';
   const [donationTab, setDonationTab] = useState<string>('fiat');
   
   const progress = (campaignData.raised / campaignData.goal) * 100;
   
   const handleDonate = () => {
+    const currency = donationTab === 'fiat' ? fiatCurrency : cryptoCurrency;
     toast.success(`Thank you for your ${donationAmount} ${currency} donation!`, {
       description: "Your transaction is being processed.",
     });
@@ -95,7 +96,6 @@ const CampaignDetail = () => {
     <Layout>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2">
             <img 
               src={campaignData.imageUrl} 
@@ -172,7 +172,6 @@ const CampaignDetail = () => {
             </Tabs>
           </div>
           
-          {/* Donation Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl border shadow-sm p-6 sticky top-24">
               <div className="mb-4">
@@ -211,17 +210,9 @@ const CampaignDetail = () => {
                             onChange={(e) => setDonationAmount(e.target.value)}
                             className="rounded-r-none"
                           />
-                          <Select value={currency} onValueChange={setCurrency}>
-                            <SelectTrigger className="w-20 rounded-l-none border-l-0">
-                              <SelectValue placeholder="MYR" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="MYR">MYR</SelectItem>
-                              <SelectItem value="USD">USD</SelectItem>
-                              <SelectItem value="EUR">EUR</SelectItem>
-                              <SelectItem value="GBP">GBP</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <div className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-l-none border border-l-0 border-input bg-background px-3 text-sm font-medium shadow-sm">
+                            MYR
+                          </div>
                         </div>
                       </div>
                       
@@ -233,7 +224,7 @@ const CampaignDetail = () => {
                             onClick={() => setDonationAmount(amount.toString())}
                             className={donationAmount === amount.toString() ? "bg-islamic-primary/10 border-islamic-primary text-islamic-primary" : ""}
                           >
-                            {currency} {amount}
+                            {fiatCurrency} {amount}
                           </Button>
                         ))}
                       </div>
@@ -254,14 +245,9 @@ const CampaignDetail = () => {
                             onChange={(e) => setDonationAmount(e.target.value)}
                             className="rounded-r-none"
                           />
-                          <Select defaultValue="ETH" onValueChange={setCurrency}>
-                            <SelectTrigger className="w-24 rounded-l-none border-l-0">
-                              <SelectValue placeholder="ETH" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="ETH">ETH</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <div className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-l-none border border-l-0 border-input bg-background px-3 text-sm font-medium shadow-sm">
+                            ETH
+                          </div>
                         </div>
                       </div>
                       
@@ -273,6 +259,12 @@ const CampaignDetail = () => {
                       <Button className="w-full bg-islamic-primary hover:bg-islamic-primary/90" onClick={handleDonate}>
                         Donate with Ethereum
                       </Button>
+                      
+                      <QRCodePayment 
+                        amount={donationAmount} 
+                        currency={cryptoCurrency} 
+                        campaignId={id || '1'}
+                      />
                     </div>
                   </TabsContent>
                 </Tabs>
