@@ -15,7 +15,7 @@ const sampleTransactions = [
     currency: 'USD',
     campaignName: 'Masjid Renovation Project',
     campaignId: '1',
-    status: 'success'
+    status: 'success' as const
   },
   {
     id: '2',
@@ -24,7 +24,7 @@ const sampleTransactions = [
     currency: 'USD',
     campaignName: 'Eid Food Packages',
     campaignId: '2',
-    status: 'success'
+    status: 'success' as const
   },
   {
     id: '3',
@@ -33,7 +33,7 @@ const sampleTransactions = [
     currency: 'USD',
     campaignName: 'Islamic Education Scholarship',
     campaignId: '3',
-    status: 'pending'
+    status: 'pending' as const
   },
   {
     id: '4',
@@ -42,7 +42,7 @@ const sampleTransactions = [
     currency: 'USD',
     campaignName: 'Water Wells in Africa',
     campaignId: '6',
-    status: 'success'
+    status: 'success' as const
   },
   {
     id: '5',
@@ -51,9 +51,9 @@ const sampleTransactions = [
     currency: 'USD',
     campaignName: 'Yemen Emergency Relief',
     campaignId: '4',
-    status: 'failed'
+    status: 'failed' as const
   }
-] as const;
+];
 
 const dashboardData = {
   totalAmount: 45000,
