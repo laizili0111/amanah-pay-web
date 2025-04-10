@@ -7,11 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const CryptoConverter: React.FC = () => {
   const [amount, setAmount] = useState<string>('100');
-  const [fromCurrency, setFromCurrency] = useState<string>('USD');
+  const [fromCurrency, setFromCurrency] = useState<string>('MYR');
   const [toCurrency, setToCurrency] = useState<string>('ETH');
   
   // These would be fetched from an API in a real application
   const conversionRates = {
+    'MYR-ETH': 0.00011,
+    'MYR-BTC': 0.0000042,
+    'MYR-USDT': 0.21,
     'USD-ETH': 0.00043,
     'USD-BTC': 0.000017,
     'USD-USDT': 1,
@@ -42,7 +45,7 @@ const CryptoConverter: React.FC = () => {
           <div className="text-center mb-10">
             <h2 className="islamic-heading text-3xl mb-4">Crypto Conversion Calculator</h2>
             <p className="text-gray-600">
-              See how your traditional currency converts to cryptocurrency for donation purposes.
+              See how your Malaysian Ringgit converts to Ethereum for donation purposes.
             </p>
           </div>
           
@@ -59,9 +62,10 @@ const CryptoConverter: React.FC = () => {
                   />
                   <Select value={fromCurrency} onValueChange={setFromCurrency}>
                     <SelectTrigger className="w-24 rounded-l-none border-l-0">
-                      <SelectValue placeholder="USD" />
+                      <SelectValue placeholder="MYR" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="MYR">MYR</SelectItem>
                       <SelectItem value="USD">USD</SelectItem>
                       <SelectItem value="EUR">EUR</SelectItem>
                       <SelectItem value="GBP">GBP</SelectItem>
@@ -116,7 +120,7 @@ const CryptoConverter: React.FC = () => {
           
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-500">
-              All cryptocurrency transactions are processed on the blockchain, ensuring transparency and compliance with Islamic finance principles.
+              All cryptocurrency transactions are processed on the Ethereum blockchain, ensuring transparency and compliance with Islamic finance principles.
             </p>
           </div>
         </div>

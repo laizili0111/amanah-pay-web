@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,7 @@ import { toast } from 'sonner';
 
 const ZakatCalculator: React.FC = () => {
   const [calculatorMode, setCalculatorMode] = useState<string>('wealth');
-  const [currency, setCurrency] = useState<string>('USD');
+  const [currency, setCurrency] = useState<string>('MYR');
   
   // Wealth Zakat
   const [cash, setCash] = useState<string>('0');
@@ -29,7 +28,8 @@ const ZakatCalculator: React.FC = () => {
   
   // Nisab thresholds (approximate values)
   const nisabThresholds = {
-    'USD': 5200, // Approximate USD value of 85g of gold
+    'MYR': 24500, // Approximate MYR value of 85g of gold
+    'USD': 5200,
     'EUR': 4700,
     'GBP': 4000,
   };
@@ -45,7 +45,7 @@ const ZakatCalculator: React.FC = () => {
       const totalLiabilities = parseFloat(debts || '0');
       const netWealth = totalAssets - totalLiabilities;
       
-      const nisab = nisabThresholds[currency as keyof typeof nisabThresholds] || 5200;
+      const nisab = nisabThresholds[currency as keyof typeof nisabThresholds] || 24500;
       
       if (netWealth < nisab) {
         toast.info("Your wealth is below the Nisab threshold. Zakat is not mandatory.", {
@@ -67,7 +67,7 @@ const ZakatCalculator: React.FC = () => {
       const totalBusinessLiabilities = parseFloat(liabilities || '0');
       const netBusinessWealth = totalBusinessAssets - totalBusinessLiabilities;
       
-      const nisab = nisabThresholds[currency as keyof typeof nisabThresholds] || 5200;
+      const nisab = nisabThresholds[currency as keyof typeof nisabThresholds] || 24500;
       
       if (netBusinessWealth < nisab) {
         toast.info("Your business wealth is below the Nisab threshold. Zakat is not mandatory.", {
@@ -109,9 +109,10 @@ const ZakatCalculator: React.FC = () => {
           <div className="ml-4 w-32">
             <Select value={currency} onValueChange={setCurrency}>
               <SelectTrigger>
-                <SelectValue placeholder="USD" />
+                <SelectValue placeholder="MYR" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="MYR">MYR</SelectItem>
                 <SelectItem value="USD">USD</SelectItem>
                 <SelectItem value="EUR">EUR</SelectItem>
                 <SelectItem value="GBP">GBP</SelectItem>

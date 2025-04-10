@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -31,9 +30,9 @@ const campaignData = {
     Your generous support will help ensure our masjid continues to be a center for worship, education, and community for generations to come. May Allah reward your generosity.
   `,
   imageUrl: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=1200&auto=format&fit=crop',
-  goal: 50000,
-  raised: 32500,
-  currency: 'USD',
+  goal: 250000,
+  raised: 162500,
+  currency: 'MYR',
   daysLeft: 21,
   supporters: 147,
   category: 'Masjid',
@@ -60,8 +59,8 @@ const campaignData = {
     { 
       txHash: '0x2a567de4ac1cbd4c41c48988963988211c45a1c2a1d1bd4545',
       date: '2023-03-05',
-      amount: 1000,
-      currency: 'USDT'
+      amount: 0.25,
+      currency: 'ETH'
     },
     { 
       txHash: '0x8b34f67de43c21a56789a452bb4e3267fdde321ac34a45c2',
@@ -72,16 +71,16 @@ const campaignData = {
     { 
       txHash: '0x3c45de67843abc1357924680abcdef12345678901234567',
       date: '2023-02-10',
-      amount: 2500,
-      currency: 'USDT'
+      amount: 0.7,
+      currency: 'ETH'
     }
   ]
 };
 
 const CampaignDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [donationAmount, setDonationAmount] = useState<string>('50');
-  const [currency, setCurrency] = useState<string>('USD');
+  const [donationAmount, setDonationAmount] = useState<string>('250');
+  const [currency, setCurrency] = useState<string>('MYR');
   const [donationTab, setDonationTab] = useState<string>('fiat');
   
   const progress = (campaignData.raised / campaignData.goal) * 100;
@@ -214,9 +213,10 @@ const CampaignDetail = () => {
                           />
                           <Select value={currency} onValueChange={setCurrency}>
                             <SelectTrigger className="w-20 rounded-l-none border-l-0">
-                              <SelectValue placeholder="USD" />
+                              <SelectValue placeholder="MYR" />
                             </SelectTrigger>
                             <SelectContent>
+                              <SelectItem value="MYR">MYR</SelectItem>
                               <SelectItem value="USD">USD</SelectItem>
                               <SelectItem value="EUR">EUR</SelectItem>
                               <SelectItem value="GBP">GBP</SelectItem>
@@ -226,7 +226,7 @@ const CampaignDetail = () => {
                       </div>
                       
                       <div className="grid grid-cols-4 gap-2">
-                        {[10, 25, 50, 100].map((amount) => (
+                        {[50, 100, 250, 500].map((amount) => (
                           <Button 
                             key={amount}
                             variant="outline"
@@ -260,8 +260,6 @@ const CampaignDetail = () => {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="ETH">ETH</SelectItem>
-                              <SelectItem value="BTC">BTC</SelectItem>
-                              <SelectItem value="USDT">USDT</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -269,11 +267,11 @@ const CampaignDetail = () => {
                       
                       <div className="p-3 bg-islamic-primary/5 rounded-md flex items-center">
                         <AlertCircle size={16} className="text-islamic-primary mr-2" />
-                        <p className="text-xs">Crypto donations are processed directly on the blockchain for full transparency.</p>
+                        <p className="text-xs">All donations are processed on the Ethereum blockchain for full transparency.</p>
                       </div>
                       
                       <Button className="w-full bg-islamic-primary hover:bg-islamic-primary/90" onClick={handleDonate}>
-                        Donate with Crypto
+                        Donate with Ethereum
                       </Button>
                     </div>
                   </TabsContent>

@@ -25,7 +25,7 @@ const CampaignCard: React.FC<CampaignProps> = ({
   imageUrl,
   goal,
   raised,
-  currency,
+  currency = 'MYR',
   daysLeft,
   supporters,
   category

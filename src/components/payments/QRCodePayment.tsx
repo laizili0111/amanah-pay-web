@@ -17,8 +17,8 @@ const QRCodePayment: React.FC<QRCodePaymentProps> = ({ amount, currency, campaig
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=amanahpay:donate?amount=${amount}&currency=${currency}&campaign=${campaignId}`;
   
   const handleCopyAddress = () => {
-    navigator.clipboard.writeText('0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t');
-    toast.success("Wallet address copied to clipboard!");
+    navigator.clipboard.writeText('0xeB42421a4D55593c5C5A290880961b383397A17E');
+    toast.success("Ethereum wallet address copied to clipboard!");
   };
   
   return (
@@ -35,9 +35,9 @@ const QRCodePayment: React.FC<QRCodePaymentProps> = ({ amount, currency, campaig
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Cryptocurrency Payment</DialogTitle>
+          <DialogTitle>Ethereum Payment</DialogTitle>
           <DialogDescription>
-            Scan the QR code or copy the wallet address to make your donation of {currency} {amount}.
+            Scan the QR code or copy the Ethereum wallet address to make your donation of {currency} {amount}.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center py-4">
@@ -50,13 +50,13 @@ const QRCodePayment: React.FC<QRCodePaymentProps> = ({ amount, currency, campaig
           </div>
           <div className="flex flex-col w-full space-y-2">
             <div className="flex items-center justify-between bg-muted p-3 rounded-md">
-              <span className="text-sm truncate w-64">0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t</span>
+              <span className="text-sm truncate w-64">0xeB42421a4D55593c5C5A290880961b383397A17E</span>
               <Button variant="ghost" size="sm" onClick={handleCopyAddress}>
                 Copy
               </Button>
             </div>
             <p className="text-sm text-muted-foreground text-center">
-              Transaction will be visible on the blockchain once confirmed.
+              Transaction will be visible on the Ethereum blockchain once confirmed.
             </p>
           </div>
         </div>
