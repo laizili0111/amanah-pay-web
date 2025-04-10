@@ -1,0 +1,68 @@
+
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { QrCode } from 'lucide-react';
+import { toast } from 'sonner';
+
+interface QRCodePaymentProps {
+  amount: string;
+  currency: string;
+  campaignId: string;
+}
+
+const QRCodePayment: React.FC<QRCodePaymentProps> = ({ amount, currency, campaignId }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=amanahpay:donate?amount=${amount}&currency=${currency}&campaign=${campaignId}`;
+  
+  const handleCopyAddress = () => {
+    navigator.clipboard.writeText('0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t');
+    toast.success("Wallet address copied to clipboard!");
+  };
+  
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button 
+          variant="outline" 
+          className="w-full flex items-center justify-center"
+          onClick={() => setIsOpen(true)}
+        >
+          <QrCode className="mr-2 h-4 w-4" />
+          Pay with QR Code
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Cryptocurrency Payment</DialogTitle>
+          <DialogDescription>
+            Scan the QR code or copy the wallet address to make your donation of {currency} {amount}.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col items-center py-4">
+          <div className="border p-2 rounded-lg mb-4">
+            <img 
+              src={qrCodeUrl} 
+              alt="QR Code for payment" 
+              className="w-56 h-56 object-contain"
+            />
+          </div>
+          <div className="flex flex-col w-full space-y-2">
+            <div className="flex items-center justify-between bg-muted p-3 rounded-md">
+              <span className="text-sm truncate w-64">0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t</span>
+              <Button variant="ghost" size="sm" onClick={handleCopyAddress}>
+                Copy
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground text-center">
+              Transaction will be visible on the blockchain once confirmed.
+            </p>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default QRCodePayment;

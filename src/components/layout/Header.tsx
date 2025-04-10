@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Moon, Sun, User } from 'lucide-react';
+import { Menu, Moon, Sun, User, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const Header: React.FC = () => {
   return (
@@ -25,6 +26,12 @@ const Header: React.FC = () => {
           <Link to="/campaigns" className="text-islamic-dark hover:text-islamic-primary transition-colors">
             Campaigns
           </Link>
+          <Link to="/news" className="text-islamic-dark hover:text-islamic-primary transition-colors">
+            News
+          </Link>
+          <Link to="/dashboard" className="text-islamic-dark hover:text-islamic-primary transition-colors">
+            Dashboard
+          </Link>
           <Link to="/about" className="text-islamic-dark hover:text-islamic-primary transition-colors">
             About
           </Link>
@@ -34,6 +41,14 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex items-center space-x-4">
+          <div className="relative">
+            <Button variant="outline" size="icon" className="rounded-full">
+              <Bell className="h-4 w-4" />
+            </Button>
+            <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-islamic-primary text-white text-xs">
+              2
+            </Badge>
+          </div>
           <Button variant="outline" size="icon" className="rounded-full">
             <User className="h-4 w-4" />
           </Button>
