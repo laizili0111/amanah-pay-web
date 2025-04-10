@@ -3,9 +3,10 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Users, Heart, Share2 } from 'lucide-react';
+import { Clock, Users, Heart, Share2, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export interface NewsItem {
   id: string;
@@ -58,6 +59,10 @@ const NewsFeed: React.FC<NewsFeedProps> = ({ news }) => {
 
 // Extract the NewsCard to a separate component for better readability
 const NewsCard: React.FC<{ item: NewsItem }> = ({ item }) => {
+  const handleNonCampaignClick = () => {
+    toast.info("This is a news article without an associated campaign.");
+  };
+
   return (
     <Card key={item.id} className="overflow-hidden">
       <div className="md:flex">
@@ -103,11 +108,17 @@ const NewsCard: React.FC<{ item: NewsItem }> = ({ item }) => {
               </div>
             </div>
             
-            {item.campaignId && (
+            {item.campaignId ? (
               <Button asChild size="sm" variant="outline">
                 <Link to={`/campaigns/${item.campaignId}`}>
+                  <ExternalLink size={14} className="mr-1" />
                   View Campaign
                 </Link>
+              </Button>
+            ) : (
+              <Button size="sm" variant="outline" onClick={handleNonCampaignClick}>
+                <ExternalLink size={14} className="mr-1" />
+                View Article
               </Button>
             )}
           </CardFooter>
