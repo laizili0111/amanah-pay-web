@@ -4,6 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { QrCode } from 'lucide-react';
 import { toast } from 'sonner';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface QRCodePaymentProps {
   amount: string;
@@ -52,9 +58,18 @@ const QRCodePayment: React.FC<QRCodePaymentProps> = ({ amount, currency, campaig
           <div className="flex flex-col w-full space-y-2">
             <div className="flex items-center justify-between bg-muted p-3 rounded-md">
               <span className="text-sm truncate w-64">0xeB42421a4D55593c5C5A290880961b383397A17E</span>
-              <Button variant="ghost" size="sm" onClick={handleCopyAddress}>
-                Copy
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="sm" onClick={handleCopyAddress}>
+                      Copy
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Copy wallet address</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <p className="text-sm text-muted-foreground text-center">
               Transaction will be visible on the Ethereum blockchain once confirmed.
