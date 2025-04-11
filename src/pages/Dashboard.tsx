@@ -55,25 +55,24 @@ const sampleTransactions = [
   }
 ];
 
-// Update dashboard data to only use MYR
-const dashboardData = {
-  totalAmount: 225000,
-  campaigns: 12,
-  donors: 320,
-  transactions: 524,
+// Personal user dashboard data
+const userDashboardData = {
+  totalDonations: 5525,  // in MYR
+  campaignsContributed: 5,
+  totalTransactions: 7,
   monthlySummary: [
-    { name: 'Jan', amount: 20000 },
-    { name: 'Feb', amount: 17500 },
-    { name: 'Mar', amount: 34000 },
-    { name: 'Apr', amount: 26500 },
-    { name: 'May', amount: 44500 },
-    { name: 'Jun', amount: 37500 },
+    { name: 'Jan', amount: 0 },
+    { name: 'Feb', amount: 1600 },
+    { name: 'Mar', amount: 3925 },
+    { name: 'Apr', amount: 0 },
+    { name: 'May', amount: 0 },
+    { name: 'Jun', amount: 0 },
   ],
   categoryDistribution: [
-    { name: 'Masjid', value: 90000, color: '#8884d8' },
-    { name: 'Education', value: 45000, color: '#83a6ed' },
-    { name: 'Emergency', value: 60000, color: '#8dd1e1' },
-    { name: 'Food Aid', value: 30000, color: '#82ca9d' },
+    { name: 'Masjid', value: 2500, color: '#8884d8' },
+    { name: 'Education', value: 800, color: '#83a6ed' },
+    { name: 'Emergency', value: 975, color: '#8dd1e1' },
+    { name: 'Food Aid', value: 1250, color: '#82ca9d' },
   ],
 };
 
@@ -91,7 +90,7 @@ const Dashboard = () => {
           </TabsList>
           
           <TabsContent value="overview">
-            <ContributionDashboard donationData={dashboardData} />
+            <ContributionDashboard donationData={userDashboardData} />
           </TabsContent>
           
           <TabsContent value="transactions">

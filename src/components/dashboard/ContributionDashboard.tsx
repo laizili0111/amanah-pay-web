@@ -3,14 +3,13 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CreditCard, Award, Users, TrendingUp } from 'lucide-react';
+import { CreditCard, Award, Receipt, TrendingUp } from 'lucide-react';
 
 interface DashboardProps {
   donationData: {
-    totalAmount: number;
-    campaigns: number;
-    donors: number;
-    transactions: number;
+    totalDonations: number;
+    campaignsContributed: number;
+    totalTransactions: number;
     monthlySummary: Array<{ name: string; amount: number }>;
     categoryDistribution: Array<{ name: string; value: number; color: string }>;
   };
@@ -19,7 +18,7 @@ interface DashboardProps {
 const ContributionDashboard: React.FC<DashboardProps> = ({ donationData }) => {
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Donations</CardTitle>
@@ -27,46 +26,34 @@ const ContributionDashboard: React.FC<DashboardProps> = ({ donationData }) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${donationData.totalAmount.toLocaleString()}
+              MYR {donationData.totalDonations.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
-              +20.1% from last month
+              Your lifetime contribution
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Active Campaigns</CardTitle>
+            <CardTitle className="text-sm font-medium">Campaigns Contributed</CardTitle>
             <Award className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{donationData.campaigns}</div>
+            <div className="text-2xl font-bold">{donationData.campaignsContributed}</div>
             <p className="text-xs text-muted-foreground">
-              +2 new campaigns this month
+              Total campaigns you've supported
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Donors</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
+            <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{donationData.donors}</div>
+            <div className="text-2xl font-bold">{donationData.totalTransactions}</div>
             <p className="text-xs text-muted-foreground">
-              +32 new donors this month
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Transactions</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{donationData.transactions}</div>
-            <p className="text-xs text-muted-foreground">
-              +43 transactions this month
+              All your contributions
             </p>
           </CardContent>
         </Card>
@@ -80,9 +67,9 @@ const ContributionDashboard: React.FC<DashboardProps> = ({ donationData }) => {
         <TabsContent value="overview" className="pt-4">
           <Card>
             <CardHeader>
-              <CardTitle>Monthly Donation Overview</CardTitle>
+              <CardTitle>Your Monthly Donations</CardTitle>
               <CardDescription>
-                Donation trends over the past months
+                Your contribution trends over the past months
               </CardDescription>
             </CardHeader>
             <CardContent className="px-2">
@@ -100,10 +87,10 @@ const ContributionDashboard: React.FC<DashboardProps> = ({ donationData }) => {
                       axisLine={false} 
                       tickLine={false}
                       tickMargin={8}
-                      tickFormatter={(value) => `$${value}`}
+                      tickFormatter={(value) => `MYR ${value}`}
                     />
                     <Tooltip 
-                      formatter={(value) => [`$${value}`, 'Amount']}
+                      formatter={(value) => [`MYR ${value}`, 'Amount']}
                       contentStyle={{ borderRadius: '8px' }}
                     />
                     <Bar 
@@ -120,9 +107,9 @@ const ContributionDashboard: React.FC<DashboardProps> = ({ donationData }) => {
         <TabsContent value="categories" className="pt-4">
           <Card>
             <CardHeader>
-              <CardTitle>Donation by Category</CardTitle>
+              <CardTitle>Your Donations by Category</CardTitle>
               <CardDescription>
-                Distribution of donations across different campaign types
+                How you've distributed your contributions across campaign types
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -143,7 +130,7 @@ const ContributionDashboard: React.FC<DashboardProps> = ({ donationData }) => {
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => [`$${value}`, 'Amount']} />
+                    <Tooltip formatter={(value) => [`MYR ${value}`, 'Amount']} />
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>

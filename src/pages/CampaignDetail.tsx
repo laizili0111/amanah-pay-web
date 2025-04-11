@@ -5,9 +5,12 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Clock, Users, Share2, Heart, AlertCircle } from 'lucide-react';
+import { Clock, Users, Share2, Heart, AlertCircle, CreditCard, Smartphone, Building } from 'lucide-react';
 import { toast } from 'sonner';
 import QRCodePayment from '@/components/payments/QRCodePayment';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import CampaignRating from '@/components/campaigns/CampaignRating';
 
 const campaignData = {
   id: '1',
@@ -82,14 +85,24 @@ const CampaignDetail = () => {
   const fiatCurrency = 'MYR';
   const cryptoCurrency = 'ETH';
   const [donationTab, setDonationTab] = useState<string>('fiat');
+  const [paymentMethod, setPaymentMethod] = useState<string>('card');
   
   const progress = (campaignData.raised / campaignData.goal) * 100;
   
   const handleDonate = () => {
     const currency = donationTab === 'fiat' ? fiatCurrency : cryptoCurrency;
     toast.success(`Thank you for your ${donationAmount} ${currency} donation!`, {
-      description: "Your transaction is being processed.",
+      description: `Your transaction via ${getPaymentMethodName(paymentMethod)} is being processed.`,
     });
+  };
+  
+  const getPaymentMethodName = (method: string) => {
+    switch(method) {
+      case 'card': return 'Credit/Debit Card';
+      case 'bank': return 'Bank Transfer';
+      case 'ewallet': return 'E-Wallet';
+      default: return '';
+    }
   };
   
   return (
@@ -123,6 +136,7 @@ const CampaignDetail = () => {
                 <TabsTrigger value="about" className="flex-1">About</TabsTrigger>
                 <TabsTrigger value="updates" className="flex-1">Updates</TabsTrigger>
                 <TabsTrigger value="transactions" className="flex-1">Blockchain Transactions</TabsTrigger>
+                <TabsTrigger value="ratings" className="flex-1">Community Ratings</TabsTrigger>
               </TabsList>
               
               <TabsContent value="about" className="mt-6">
@@ -168,6 +182,10 @@ const CampaignDetail = () => {
                     </tbody>
                   </table>
                 </div>
+              </TabsContent>
+              
+              <TabsContent value="ratings" className="mt-6">
+                <CampaignRating campaignId={id || '1'} />
               </TabsContent>
             </Tabs>
           </div>
@@ -227,6 +245,33 @@ const CampaignDetail = () => {
                             {fiatCurrency} {amount}
                           </Button>
                         ))}
+                      </div>
+
+                      <div className="pt-2 border-t">
+                        <h4 className="font-medium text-sm mb-3">Select Payment Method</h4>
+                        <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-3">
+                          <div className="flex items-center space-x-3 rounded-md border p-3 cursor-pointer hover:bg-slate-50">
+                            <RadioGroupItem value="card" id="card" />
+                            <Label htmlFor="card" className="flex items-center cursor-pointer">
+                              <CreditCard className="h-5 w-5 mr-2 text-slate-600" />
+                              <span>Credit/Debit Card</span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-3 rounded-md border p-3 cursor-pointer hover:bg-slate-50">
+                            <RadioGroupItem value="bank" id="bank" />
+                            <Label htmlFor="bank" className="flex items-center cursor-pointer">
+                              <Building className="h-5 w-5 mr-2 text-slate-600" />
+                              <span>Bank Transfer</span>
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-3 rounded-md border p-3 cursor-pointer hover:bg-slate-50">
+                            <RadioGroupItem value="ewallet" id="ewallet" />
+                            <Label htmlFor="ewallet" className="flex items-center cursor-pointer">
+                              <Smartphone className="h-5 w-5 mr-2 text-slate-600" />
+                              <span>E-Wallet</span>
+                            </Label>
+                          </div>
+                        </RadioGroup>
                       </div>
                       
                       <Button className="w-full bg-islamic-primary hover:bg-islamic-primary/90" onClick={handleDonate}>
