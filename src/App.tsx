@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import News from "./pages/News";
 import NotFound from "./pages/NotFound";
 import React from 'react';
+import ChatbotAssistant from "./components/chatbot/ChatbotAssistant";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ function App() {
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <ChatbotAssistant />
             <Toaster />
             <Sonner />
           </BrowserRouter>
