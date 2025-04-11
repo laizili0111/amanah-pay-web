@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, Heart, FileText, Users, Calculate, TrendingUp } from 'lucide-react';
+import { Shield, Heart, FileText, Users, Calculator, TrendingUp } from 'lucide-react';
 
 const About = () => {
   return (
@@ -291,7 +291,7 @@ const About = () => {
             
             <div className="bg-white p-8 rounded-xl shadow-sm text-center">
               <div className="w-16 h-16 bg-islamic-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calculate className="h-8 w-8 text-islamic-primary" />
+                <Calculator className="h-8 w-8 text-islamic-primary" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Quadratic Funding</h3>
               <p className="text-gray-600">Promoting inclusivity by giving greater weight to the number of donors than donation amounts.</p>
