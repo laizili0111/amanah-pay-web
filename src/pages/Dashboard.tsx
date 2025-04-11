@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import DonationHistory from '@/components/transactions/DonationHistory';
 import ContributionDashboard from '@/components/dashboard/ContributionDashboard';
@@ -55,28 +55,84 @@ const sampleTransactions = [
   }
 ];
 
-// Personal user dashboard data
-const userDashboardData = {
-  totalDonations: 5525,  // in MYR
-  campaignsContributed: 5,
-  totalTransactions: 7,
-  monthlySummary: [
-    { name: 'Jan', amount: 0 },
-    { name: 'Feb', amount: 1600 },
-    { name: 'Mar', amount: 3925 },
-    { name: 'Apr', amount: 0 },
-    { name: 'May', amount: 0 },
-    { name: 'Jun', amount: 0 },
-  ],
-  categoryDistribution: [
-    { name: 'Masjid', value: 2500, color: '#8884d8' },
-    { name: 'Education', value: 800, color: '#83a6ed' },
-    { name: 'Emergency', value: 975, color: '#8dd1e1' },
-    { name: 'Food Aid', value: 1250, color: '#82ca9d' },
-  ],
-};
-
 const Dashboard = () => {
+  // State to store user dashboard data
+  const [userDashboardData, setUserDashboardData] = useState({
+    totalDonations: 5525,  // in MYR
+    campaignsContributed: 5,
+    totalTransactions: 7,
+    monthlySummary: [
+      { name: 'Jan', amount: 0 },
+      { name: 'Feb', amount: 1600 },
+      { name: 'Mar', amount: 3925 },
+      { name: 'Apr', amount: 0 },
+      { name: 'May', amount: 0 },
+      { name: 'Jun', amount: 0 },
+    ],
+    categoryDistribution: [
+      { name: 'Masjid', value: 2500, color: '#8884d8' },
+      { name: 'Education', value: 800, color: '#83a6ed' },
+      { name: 'Emergency', value: 975, color: '#8dd1e1' },
+      { name: 'Food Aid', value: 1250, color: '#82ca9d' },
+    ],
+  });
+
+  // Effect to update the dashboard data whenever it changes in localStorage
+  useEffect(() => {
+    // Check if there are updated donations in localStorage
+    const storedDonations = localStorage.getItem('totalDonations');
+    
+    if (storedDonations) {
+      const parsedDonations = parseFloat(storedDonations);
+      
+      // Update the dashboard data with the new total donations
+      setUserDashboardData(prevData => ({
+        ...prevData,
+        totalDonations: parsedDonations,
+        // Update current month's summary with the new donations
+        monthlySummary: prevData.monthlySummary.map((month, index) => {
+          // Update the current month (assuming March is current)
+          if (month.name === 'Mar') {
+            return {
+              ...month,
+              amount: parsedDonations - (prevData.totalDonations - month.amount)
+            };
+          }
+          return month;
+        })
+      }));
+    }
+    
+    // Set up an event listener to listen for storage changes
+    const handleStorageChange = () => {
+      const updatedDonations = localStorage.getItem('totalDonations');
+      if (updatedDonations) {
+        const parsedDonations = parseFloat(updatedDonations);
+        setUserDashboardData(prevData => ({
+          ...prevData,
+          totalDonations: parsedDonations,
+          monthlySummary: prevData.monthlySummary.map((month, index) => {
+            // Update the current month (assuming March is current)
+            if (month.name === 'Mar') {
+              return {
+                ...month,
+                amount: parsedDonations - (prevData.totalDonations - month.amount)
+              };
+            }
+            return month;
+          })
+        }));
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Clean up event listener
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">

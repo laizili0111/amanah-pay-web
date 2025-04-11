@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,8 @@ const ZakatCalculator: React.FC = () => {
   const [calculatorMode, setCalculatorMode] = useState<string>('wealth');
   const currency = 'MYR';
   
+  // Personal wealth inputs
+  const [salary, setSalary] = useState<string>('0');
   const [cash, setCash] = useState<string>('0');
   const [gold, setGold] = useState<string>('0');
   const [silver, setSilver] = useState<string>('0');
@@ -18,6 +21,8 @@ const ZakatCalculator: React.FC = () => {
   const [debts, setDebts] = useState<string>('0');
   const [zakatResult, setZakatResult] = useState<number | null>(null);
   
+  // Business wealth inputs
+  const [annualRevenue, setAnnualRevenue] = useState<string>('0');
   const [inventory, setInventory] = useState<string>('0');
   const [receivables, setReceivables] = useState<string>('0');
   const [businessCash, setBusinessCash] = useState<string>('0');
@@ -27,11 +32,13 @@ const ZakatCalculator: React.FC = () => {
   
   const calculateZakat = () => {
     if (calculatorMode === 'wealth') {
+      const annualSalary = parseFloat(salary || '0') * 12; // Convert monthly salary to annual
       const totalAssets = parseFloat(cash || '0') + 
                           parseFloat(gold || '0') + 
                           parseFloat(silver || '0') + 
                           parseFloat(investments || '0') + 
-                          parseFloat(properties || '0');
+                          parseFloat(properties || '0') +
+                          annualSalary;
                           
       const totalLiabilities = parseFloat(debts || '0');
       const netWealth = totalAssets - totalLiabilities;
@@ -49,7 +56,8 @@ const ZakatCalculator: React.FC = () => {
     } else {
       const totalBusinessAssets = parseFloat(inventory || '0') + 
                                 parseFloat(receivables || '0') + 
-                                parseFloat(businessCash || '0');
+                                parseFloat(businessCash || '0') +
+                                parseFloat(annualRevenue || '0');
                                 
       const totalBusinessLiabilities = parseFloat(liabilities || '0');
       const netBusinessWealth = totalBusinessAssets - totalBusinessLiabilities;
@@ -64,6 +72,33 @@ const ZakatCalculator: React.FC = () => {
         setZakatResult(zakatAmount);
         toast.success("Business Zakat calculated successfully!");
       }
+    }
+    
+    // Store the calculated Zakat amount in local storage
+    if (zakatResult !== null) {
+      localStorage.setItem('calculatedZakat', zakatResult.toString());
+    }
+  };
+  
+  const handlePayZakat = () => {
+    if (zakatResult !== null && zakatResult > 0) {
+      // Get existing donations from localStorage or initialize
+      const existingDonations = localStorage.getItem('totalDonations') 
+        ? parseFloat(localStorage.getItem('totalDonations') || '0') 
+        : 0;
+      
+      // Add zakat amount to total donations
+      const updatedDonations = existingDonations + zakatResult;
+      
+      // Store updated donations
+      localStorage.setItem('totalDonations', updatedDonations.toString());
+      
+      toast.success("Zakat payment processed successfully!", {
+        description: `MYR ${zakatResult.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} has been added to your total donations.`
+      });
+      
+      // Reset calculator after payment
+      setZakatResult(null);
     }
   };
   
@@ -101,6 +136,17 @@ const ZakatCalculator: React.FC = () => {
       <TabsContent value="wealth" className="mt-0">
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="salary">Monthly Salary</Label>
+              <Input
+                id="salary"
+                type="number"
+                min="0"
+                value={salary}
+                onChange={(e) => setSalary(e.target.value)}
+                placeholder="0"
+              />
+            </div>
             <div>
               <Label htmlFor="cash">Cash & Bank Balance</Label>
               <Input
@@ -175,6 +221,17 @@ const ZakatCalculator: React.FC = () => {
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
+              <Label htmlFor="annualRevenue">Annual Revenue</Label>
+              <Input
+                id="annualRevenue"
+                type="number"
+                min="0"
+                value={annualRevenue}
+                onChange={(e) => setAnnualRevenue(e.target.value)}
+                placeholder="0"
+              />
+            </div>
+            <div>
               <Label htmlFor="inventory">Inventory Value</Label>
               <Input
                 id="inventory"
@@ -240,9 +297,7 @@ const ZakatCalculator: React.FC = () => {
             </p>
             <div className="flex justify-center mt-4">
               <Button 
-                onClick={() => {
-                  toast.success("Redirecting to donation page");
-                }}
+                onClick={handlePayZakat}
                 className="bg-islamic-secondary text-islamic-dark hover:bg-islamic-secondary/90"
                 size="sm"
               >
