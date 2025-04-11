@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -28,7 +27,7 @@ const sampleReviews: Review[] = [
     userName: 'Ahmed Hassan',
     userAvatar: 'https://randomuser.me/api/portraits/men/32.jpg',
     rating: 5,
-    comment: 'I visited the site and was impressed by how the renovation is progressing. The community space is much larger now and they've improved accessibility.',
+    comment: "I visited the site and was impressed by how the renovation is progressing. The community space is much larger now and they've improved accessibility.",
     date: '2025-03-10',
     likes: 12
   },
