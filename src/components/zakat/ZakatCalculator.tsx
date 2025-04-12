@@ -99,6 +99,9 @@ const ZakatCalculator: React.FC = () => {
       
       // Reset calculator after payment
       setZakatResult(null);
+      
+      // Dispatch a custom event to notify the dashboard of the change
+      window.dispatchEvent(new Event('storage'));
     }
   };
   

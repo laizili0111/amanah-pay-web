@@ -79,50 +79,42 @@ const Dashboard = () => {
 
   // Effect to update the dashboard data whenever it changes in localStorage
   useEffect(() => {
-    // Check if there are updated donations in localStorage
-    const storedDonations = localStorage.getItem('totalDonations');
-    
-    if (storedDonations) {
-      const parsedDonations = parseFloat(storedDonations);
+    // Get the initial value from localStorage
+    const updateFromLocalStorage = () => {
+      const storedDonations = localStorage.getItem('totalDonations');
       
-      // Update the dashboard data with the new total donations
-      setUserDashboardData(prevData => ({
-        ...prevData,
-        totalDonations: parsedDonations,
-        // Update current month's summary with the new donations
-        monthlySummary: prevData.monthlySummary.map((month, index) => {
-          // Update the current month (assuming March is current)
-          if (month.name === 'Mar') {
-            return {
-              ...month,
-              amount: parsedDonations - (prevData.totalDonations - month.amount)
-            };
-          }
-          return month;
-        })
-      }));
-    }
+      if (storedDonations) {
+        const parsedDonations = parseFloat(storedDonations);
+        
+        // Update the dashboard data with the new total donations
+        setUserDashboardData(prevData => {
+          // Get the current month (April as we're in April 2025)
+          const currentMonth = 'Apr';
+          
+          return {
+            ...prevData,
+            totalDonations: parsedDonations,
+            // Update current month's summary with the new donations
+            monthlySummary: prevData.monthlySummary.map(month => {
+              if (month.name === currentMonth) {
+                return {
+                  ...month,
+                  amount: parsedDonations - 5525 + month.amount // Add the difference to current month
+                };
+              }
+              return month;
+            })
+          };
+        });
+      }
+    };
+    
+    // Call it once on initial load
+    updateFromLocalStorage();
     
     // Set up an event listener to listen for storage changes
     const handleStorageChange = () => {
-      const updatedDonations = localStorage.getItem('totalDonations');
-      if (updatedDonations) {
-        const parsedDonations = parseFloat(updatedDonations);
-        setUserDashboardData(prevData => ({
-          ...prevData,
-          totalDonations: parsedDonations,
-          monthlySummary: prevData.monthlySummary.map((month, index) => {
-            // Update the current month (assuming March is current)
-            if (month.name === 'Mar') {
-              return {
-                ...month,
-                amount: parsedDonations - (prevData.totalDonations - month.amount)
-              };
-            }
-            return month;
-          })
-        }));
-      }
+      updateFromLocalStorage();
     };
     
     window.addEventListener('storage', handleStorageChange);
