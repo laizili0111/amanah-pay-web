@@ -119,6 +119,9 @@ const Dashboard = () => {
     
     window.addEventListener('storage', handleStorageChange);
     
+    // Add an event listener for the custom event
+    window.addEventListener('storage', handleStorageChange);
+    
     // Clean up event listener
     return () => {
       window.removeEventListener('storage', handleStorageChange);

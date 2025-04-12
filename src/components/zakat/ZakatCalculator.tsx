@@ -12,21 +12,21 @@ const ZakatCalculator: React.FC = () => {
   const currency = 'MYR';
   
   // Personal wealth inputs
-  const [salary, setSalary] = useState<string>('0');
-  const [cash, setCash] = useState<string>('0');
-  const [gold, setGold] = useState<string>('0');
-  const [silver, setSilver] = useState<string>('0');
-  const [investments, setInvestments] = useState<string>('0');
-  const [properties, setProperties] = useState<string>('0');
-  const [debts, setDebts] = useState<string>('0');
+  const [salary, setSalary] = useState<string>('');
+  const [cash, setCash] = useState<string>('');
+  const [gold, setGold] = useState<string>('');
+  const [silver, setSilver] = useState<string>('');
+  const [investments, setInvestments] = useState<string>('');
+  const [properties, setProperties] = useState<string>('');
+  const [debts, setDebts] = useState<string>('');
   const [zakatResult, setZakatResult] = useState<number | null>(null);
   
   // Business wealth inputs
-  const [annualRevenue, setAnnualRevenue] = useState<string>('0');
-  const [inventory, setInventory] = useState<string>('0');
-  const [receivables, setReceivables] = useState<string>('0');
-  const [businessCash, setBusinessCash] = useState<string>('0');
-  const [liabilities, setLiabilities] = useState<string>('0');
+  const [annualRevenue, setAnnualRevenue] = useState<string>('');
+  const [inventory, setInventory] = useState<string>('');
+  const [receivables, setReceivables] = useState<string>('');
+  const [businessCash, setBusinessCash] = useState<string>('');
+  const [liabilities, setLiabilities] = useState<string>('');
   
   const nisabThreshold = 24500;
   
@@ -95,6 +95,23 @@ const ZakatCalculator: React.FC = () => {
       // Reset calculator after payment
       setZakatResult(null);
       
+      // Clear all input fields
+      if (calculatorMode === 'wealth') {
+        setSalary('');
+        setCash('');
+        setGold('');
+        setSilver('');
+        setInvestments('');
+        setProperties('');
+        setDebts('');
+      } else {
+        setAnnualRevenue('');
+        setInventory('');
+        setReceivables('');
+        setBusinessCash('');
+        setLiabilities('');
+      }
+      
       // Dispatch a custom event to notify the dashboard of the change
       window.dispatchEvent(new Event('storage'));
     }
@@ -139,7 +156,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="salary"
                 type="number"
-                min="0"
                 value={salary}
                 onChange={(e) => setSalary(e.target.value)}
                 placeholder="0"
@@ -150,7 +166,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="cash"
                 type="number"
-                min="0"
                 value={cash}
                 onChange={(e) => setCash(e.target.value)}
                 placeholder="0"
@@ -161,7 +176,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="gold"
                 type="number"
-                min="0"
                 value={gold}
                 onChange={(e) => setGold(e.target.value)}
                 placeholder="0"
@@ -172,7 +186,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="silver"
                 type="number"
-                min="0"
                 value={silver}
                 onChange={(e) => setSilver(e.target.value)}
                 placeholder="0"
@@ -183,7 +196,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="investments"
                 type="number"
-                min="0"
                 value={investments}
                 onChange={(e) => setInvestments(e.target.value)}
                 placeholder="0"
@@ -194,7 +206,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="properties"
                 type="number"
-                min="0"
                 value={properties}
                 onChange={(e) => setProperties(e.target.value)}
                 placeholder="0"
@@ -205,7 +216,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="debts"
                 type="number"
-                min="0"
                 value={debts}
                 onChange={(e) => setDebts(e.target.value)}
                 placeholder="0"
@@ -223,7 +233,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="annualRevenue"
                 type="number"
-                min="0"
                 value={annualRevenue}
                 onChange={(e) => setAnnualRevenue(e.target.value)}
                 placeholder="0"
@@ -234,7 +243,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="inventory"
                 type="number"
-                min="0"
                 value={inventory}
                 onChange={(e) => setInventory(e.target.value)}
                 placeholder="0"
@@ -245,7 +253,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="receivables"
                 type="number"
-                min="0"
                 value={receivables}
                 onChange={(e) => setReceivables(e.target.value)}
                 placeholder="0"
@@ -256,7 +263,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="businessCash"
                 type="number"
-                min="0"
                 value={businessCash}
                 onChange={(e) => setBusinessCash(e.target.value)}
                 placeholder="0"
@@ -267,7 +273,6 @@ const ZakatCalculator: React.FC = () => {
               <Input
                 id="liabilities"
                 type="number"
-                min="0"
                 value={liabilities}
                 onChange={(e) => setLiabilities(e.target.value)}
                 placeholder="0"
