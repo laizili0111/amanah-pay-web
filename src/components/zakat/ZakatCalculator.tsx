@@ -73,11 +73,6 @@ const ZakatCalculator: React.FC = () => {
         toast.success("Business Zakat calculated successfully!");
       }
     }
-    
-    // Store the calculated Zakat amount in local storage
-    if (zakatResult !== null) {
-      localStorage.setItem('calculatedZakat', zakatResult.toString());
-    }
   };
   
   const handlePayZakat = () => {
